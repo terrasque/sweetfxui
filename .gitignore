@@ -1,0 +1,8 @@
+*.resx
+*.config
+bin/*
+publish/*
+obj/*
+Properties/*
+*.pfx
+*.csproj*
