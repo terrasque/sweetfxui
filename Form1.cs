@@ -68,6 +68,8 @@ namespace WindowsFormsApplication1
 
             if (activeGame != null)
             {
+                installFXbutton.Visible = !activeGame.isActivated;
+
                 if (activeGame.Config != null)
                 {
                     button8.Enabled = true;
@@ -78,6 +80,7 @@ namespace WindowsFormsApplication1
                     {
                         if (fxs.parent == null) cats.Add(fxs);
                     }
+
                     activeGroups.DataSource = cats;
                     for (int i = 0; i < cats.Count; i++)
                     {
@@ -107,7 +110,6 @@ namespace WindowsFormsApplication1
                 activeGame = settings.games.ElementAt(gamesList.SelectedIndex);
                 label2.Text = activeGame.shortName;
                 toolTip1.SetToolTip(label2, activeGame.path);
-                installFXbutton.Visible = !activeGame.isActivated;
                 if (activeGame.Config != null) autoSave.Checked = activeGame.Config.autoSave;
                 refreshUI();
             }
@@ -269,6 +271,5 @@ namespace WindowsFormsApplication1
         {
             if (activeGame != null) new gameData(activeGame, this).Show();
         }
-
     }
 }

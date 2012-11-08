@@ -64,9 +64,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(84, 135);
+            this.button1.Location = new System.Drawing.Point(70, 135);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(188, 42);
+            this.button1.Size = new System.Drawing.Size(202, 42);
             this.button1.TabIndex = 2;
             this.button1.Text = "Save changes";
             this.button1.UseVisualStyleBackColor = true;
@@ -111,7 +111,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(12, 135);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(63, 42);
+            this.button2.Size = new System.Drawing.Size(52, 42);
             this.button2.TabIndex = 7;
             this.button2.Text = "Open folder";
             this.button2.UseVisualStyleBackColor = true;
@@ -158,14 +158,14 @@
             // 
             // label5
             // 
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(28, 88);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 82);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(224, 60);
+            this.label5.Size = new System.Drawing.Size(246, 80);
             this.label5.TabIndex = 11;
-            this.label5.Text = "Some game engines require the injector files installed to a subdirectory for it t" +
-                "o work properly. Enable this to split the files when adding SweetFX to this game" +
-                "";
+            this.label5.Text = "Some game engines require the injector files installed to a subdirectory (usually" +
+                " \"bin\" or \"bin32\") for it to work properly. Enable this to split the files when " +
+                "adding SweetFX to this game.";
             // 
             // execFolder
             // 
@@ -179,9 +179,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(12, 67);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.Size = new System.Drawing.Size(90, 13);
             this.label6.TabIndex = 12;
-            this.label6.Text = "Run folder";
+            this.label6.Text = "Working directory";
             // 
             // gameData
             // 
