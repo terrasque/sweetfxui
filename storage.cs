@@ -36,6 +36,7 @@ namespace WindowsFormsApplication1
                 {
                     gameEntry newGame = new gameEntry(section.Keys["exec"], section.Keys["name"]);
                     if (section.Keys.ContainsKey("args")) newGame.runArgs = section.Keys["args"];
+                    if (section.Keys.ContainsKey("execfolder")) newGame.execfolder = section.Keys["execfolder"];
                     if (section.Keys.ContainsKey("specialfolder")) newGame.special_subfolder = section.Keys["specialfolder"];
                     if (section.Keys.ContainsKey("special")) newGame.special_install = section.Keys["special"] == "1" ? true:false ;
                     games.Add(newGame);
@@ -83,12 +84,18 @@ namespace WindowsFormsApplication1
             parsedData[section][key] = value;
         }
 
+        public String getCategoryNameFor(gameEntry entry)
+        {
+            return "game:" + CalculateMD5Hash(entry.path);
+        }
+
         public void saveSettings()
         {
             foreach (gameEntry g in games)
             {
-                String section = "game:" + CalculateMD5Hash(g.path);
+                String section = getCategoryNameFor(g);
                 addValue(section, "exec", g.path);
+                addValue(section, "execfolder", g.execfolder);
                 addValue(section, "name", g.shortName);
                 addValue(section, "args", g.runArgs);
                 addValue(section, "specialfolder", g.special_subfolder);
@@ -99,7 +106,7 @@ namespace WindowsFormsApplication1
         public void removeGame(gameEntry entry)
         {
             games.Remove(entry);
-            String section = "game:" + CalculateMD5Hash(entry.path);
+            String section = getCategoryNameFor(entry);
             parsedData.Sections.RemoveSection(section);
             saveSettings();
         }
@@ -120,3 +127,4 @@ namespace WindowsFormsApplication1
         }
     }
 }
+

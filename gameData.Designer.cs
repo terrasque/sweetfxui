@@ -41,6 +41,8 @@
             this.specialpath = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.execFolder = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -165,11 +167,29 @@
                 "o work properly. Enable this to split the files when adding SweetFX to this game" +
                 "";
             // 
+            // execFolder
+            // 
+            this.execFolder.Location = new System.Drawing.Point(113, 64);
+            this.execFolder.Name = "execFolder";
+            this.execFolder.Size = new System.Drawing.Size(156, 20);
+            this.execFolder.TabIndex = 13;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 67);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Run folder";
+            // 
             // gameData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(563, 187);
+            this.Controls.Add(this.execFolder);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.path);
             this.Controls.Add(this.button2);
@@ -204,6 +224,8 @@
         private System.Windows.Forms.TextBox specialpath;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox execFolder;
+        private System.Windows.Forms.Label label6;
 
     }
 }

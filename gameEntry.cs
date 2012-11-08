@@ -12,6 +12,7 @@ namespace WindowsFormsApplication1
         public String path;
         public String shortName;
         public string folder;
+        public string execfolder;
         public bool isActivated = false;
         public sweetConfig Config;
         public injector injectordata;
@@ -73,6 +74,7 @@ namespace WindowsFormsApplication1
         private void init()
         {
             this.folder = Path.GetDirectoryName(path);
+            this.execfolder = this.folder;
             checkActive();
             loadPresets();
         }
@@ -176,7 +178,6 @@ namespace WindowsFormsApplication1
                 }
                 catch (Exception e)
                 {
-
                     logger.info("Installing SweetFX : Could not copy file " + sourceName);
                     logger.debug("Copy error : " + e.ToString());
                 }
@@ -198,7 +199,7 @@ namespace WindowsFormsApplication1
         public void launchGame()
         {
             System.Diagnostics.ProcessStartInfo starter = new System.Diagnostics.ProcessStartInfo(this.path);
-            starter.WorkingDirectory = folder;
+            starter.WorkingDirectory = execfolder;
             starter.Arguments = runArgs;
             System.Diagnostics.Process.Start(starter);
         }
