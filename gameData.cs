@@ -26,7 +26,8 @@ namespace WindowsFormsApplication1
             this.Text = entry.shortName + " settings";
             path.Text = entry.path;
             execFolder.Text = entry.execfolder;
-            specialpath.Text = entry.special_subfolder;
+            specialpath.Text = entry.special_folder;
+            installDir.Text = entry.installFXfolder;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -46,8 +47,9 @@ namespace WindowsFormsApplication1
             entry.runArgs = gameArgs.Text;
             entry.shortName = gameName.Text;
             entry.special_install = specialInstall.Checked;
-            entry.special_subfolder = specialpath.Text;
+            entry.special_folder = specialpath.Text;
             entry.execfolder = execFolder.Text;
+            entry.installFXfolder = installDir.Text;
 
             parent.settings.saveSettings();
             parent.refreshUI();
@@ -57,6 +59,42 @@ namespace WindowsFormsApplication1
         private void button2_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(entry.folder);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            updateFieldFolder(execFolder, "Choose game working directory");
+        }
+
+        private void updateFieldFolder(TextBox target, String descr)
+        {
+            String newpath = getFolder(target.Text, descr);
+            if (newpath != null)
+            {
+                target.Text = newpath;
+            }
+        }
+
+        private String getFolder(String rootFolder, String descr)
+        {
+            folderBrowserDialog1.SelectedPath = rootFolder;
+            folderBrowserDialog1.Description = descr;
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                return folderBrowserDialog1.SelectedPath;
+            }
+            return null;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            updateFieldFolder(specialpath, "Choose split install injector folder");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            updateFieldFolder(installDir, "Choose SweetFX install folder");
         }
 
     }

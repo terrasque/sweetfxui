@@ -13,6 +13,9 @@ namespace WindowsFormsApplication1
         public String shortName;
         public string folder;
         public string execfolder;
+
+        public string installFXfolder;
+
         public bool isActivated = false;
         public sweetConfig Config;
         public injector injectordata;
@@ -23,7 +26,7 @@ namespace WindowsFormsApplication1
         private static String[] special_files = { "dxgi.dll", "injector.ini", "d3d9.dll" };
 
         public Boolean special_install = false;
-        public String special_subfolder = "bin";
+        public String special_folder = "bin";
 
         public String runArgs = "";
 
@@ -75,6 +78,15 @@ namespace WindowsFormsApplication1
         {
             this.folder = Path.GetDirectoryName(path);
             this.execfolder = this.folder;
+            this.installFXfolder = this.folder;
+            this.special_folder = this.folder;
+            foreach (String s in Directory.GetDirectories(this.folder))
+            {
+                if (s.ToLower() == "bin" || s.ToLower() == "bin32")
+                {
+                    this.special_folder = Path.Combine(this.folder, s);
+                }
+            }
             checkActive();
             loadPresets();
         }
@@ -98,12 +110,13 @@ namespace WindowsFormsApplication1
         public bool checkActive()
         {
 
-            String installed = Path.Combine(folder, this.getSubPathFor(check_for_active_file));
-            String settingsfile = Path.Combine(folder, getSubPathFor(setting_config));
-            String injectfile = Path.Combine(folder, getSubPathFor(setting_injector));
+            String installed = this.getPathFor(check_for_active_file);
+            String settingsfile = getPathFor(setting_config);
+            String injectfile = getPathFor(setting_injector);
             if (File.Exists(installed))
             {
-                if (!isActivated) {
+                if (!isActivated)
+                {
                     if (File.Exists(settingsfile)) this.Config = new sweetConfig(settingsfile);
                     if (File.Exists(injectfile)) injectordata = new injector(injectfile);
                 }
@@ -118,71 +131,70 @@ namespace WindowsFormsApplication1
             return isActivated;
         }
 
-        private String getSubPathFor(String file)
+        private String getPathFor(String file)
         {
-            logger.debug("Checking path for "+ file);
+            logger.debug("Checking path for " + file);
             if (special_install && special_files.Contains(file))
             {
-                String nfile = Path.Combine(special_subfolder, file);
+                String nfile = Path.Combine(special_folder, file);
                 logger.debug("Returning file changed to " + nfile);
                 return nfile;
             }
-            return file;
+            return Path.Combine(this.installFXfolder, file);
         }
 
-        private void removeRecursive(String source, String destination, String[] exceptions)
+        private void removeRecursive(String source, String[] exceptions)
         {
-            if (!Directory.Exists(destination))
-                Directory.CreateDirectory(destination);
-            String[] dirs = Directory.GetDirectories(source);
-
-            foreach (String dir in dirs)
+            List<String> files = common.getRelativeFileList(source, "");
+            foreach (String f in files)
             {
-                String dname = new DirectoryInfo(dir).Name;
-                removeRecursive(Path.Combine(source, dname), Path.Combine(destination, dname), exceptions);
+                if (!exceptions.Contains(f))
+                {
+                    String file = getPathFor(f);
+                    File.Delete(file);
+                }
             }
-
-            string[] files = Directory.GetFiles(source);
-            foreach (string f in files)
+            List<String> folders = common.getFolderList(source, "");
+            foreach (String f in folders)
             {
-                string sourceName = Path.GetFileName(f);
-                sourceName = getSubPathFor(sourceName);
-                string target = Path.Combine(destination, sourceName);
-                //File.Copy(f, target, true);
-                if (!exceptions.Contains(sourceName)) {
-                    File.Delete(target);
+                String folder = getPathFor(f);
+                if (Directory.GetFiles(folder).Count() == 0)
+                {
+                    try
+                    {
+                        Directory.Delete(folder);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.info("Removing SweetFX : Could not remove dir " + f);
+                        logger.debug("Remove error : " + e.ToString());
+                    }
                 }
             }
         }
 
-        private void copyRecursive(String source, String destination)
+        private void copyRecursive(String source)
         {
-            if (!Directory.Exists(destination))
-                Directory.CreateDirectory(destination);
-            String[] dirs = Directory.GetDirectories(source);
-            
-            foreach (String dir in dirs) {
-                String dname = new DirectoryInfo(dir).Name;
-                copyRecursive(Path.Combine(source, dname), Path.Combine(destination, dname));
-            }
-
-            string[] files = Directory.GetFiles(source);
-            foreach (string f in files)
+            List<String> files = common.getRelativeFileList(source, "");
+            List<String> folders = common.getFolderList(source, "");
+            foreach (String f in folders)
             {
-                string sourceName = Path.GetFileName(f);
-                sourceName = getSubPathFor(sourceName);
-                string target = Path.Combine(destination, sourceName);
+                String target = getPathFor(f);
+                Directory.CreateDirectory(target);
+            }
+            foreach (String f in files)
+            {
+                String target = getPathFor(f);
                 try
                 {
-                    File.Copy(f, target);
+                    File.Copy(Path.Combine(source, f), target);
                 }
                 catch (Exception e)
                 {
-                    logger.info("Installing SweetFX : Could not copy file " + sourceName);
+                    logger.info("Installing SweetFX : Could not copy file " + f);
                     logger.debug("Copy error : " + e.ToString());
                 }
             }
-
         }
 
         public void removeSweetFX()
@@ -191,7 +203,7 @@ namespace WindowsFormsApplication1
             {
                 string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
                 String[] exc = { setting_config, setting_injector };
-                removeRecursive(Path.Combine(baseFolder, Form1.sweetfx_folder), folder, exc);
+                removeRecursive(Path.Combine(baseFolder, Form1.sweetfx_folder), exc);
             }
             checkActive();
         }
@@ -204,11 +216,12 @@ namespace WindowsFormsApplication1
             System.Diagnostics.Process.Start(starter);
         }
 
-        public bool installSweetFX() {
+        public bool installSweetFX()
+        {
             if (!isActivated)
             {
                 string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-                copyRecursive(Path.Combine(baseFolder, Form1.sweetfx_folder), folder);
+                copyRecursive(Path.Combine(baseFolder, Form1.sweetfx_folder));
             }
             return checkActive();
         }

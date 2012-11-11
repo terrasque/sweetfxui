@@ -37,7 +37,9 @@ namespace WindowsFormsApplication1
                     gameEntry newGame = new gameEntry(section.Keys["exec"], section.Keys["name"]);
                     if (section.Keys.ContainsKey("args")) newGame.runArgs = section.Keys["args"];
                     if (section.Keys.ContainsKey("execfolder")) newGame.execfolder = section.Keys["execfolder"];
-                    if (section.Keys.ContainsKey("specialfolder")) newGame.special_subfolder = section.Keys["specialfolder"];
+                    if (section.Keys.ContainsKey("installFXfolder")) newGame.installFXfolder = section.Keys["installFXfolder"];
+                    if (section.Keys.ContainsKey("execfolder")) newGame.execfolder = section.Keys["execfolder"];
+                    if (section.Keys.ContainsKey("specialfolder")) newGame.special_folder = section.Keys["specialfolder"];
                     if (section.Keys.ContainsKey("special")) newGame.special_install = section.Keys["special"] == "1" ? true:false ;
                     games.Add(newGame);
                 }
@@ -97,8 +99,9 @@ namespace WindowsFormsApplication1
                 addValue(section, "exec", g.path);
                 addValue(section, "execfolder", g.execfolder);
                 addValue(section, "name", g.shortName);
+                addValue(section, "installFXfolder", g.installFXfolder);
                 addValue(section, "args", g.runArgs);
-                addValue(section, "specialfolder", g.special_subfolder);
+                addValue(section, "specialfolder", g.special_folder);
                 addValue(section, "special", g.special_install ? "1" : "0");
             }
             parser.SaveFile(storageFile, parsedData);
