@@ -18,10 +18,5 @@ namespace WindowsFormsApplication1
             InitializeComponent();
             this.game = target;
         }
-
-        private void importPresetForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -98,7 +98,6 @@
             this.Controls.Add(this.titleBox);
             this.Name = "importPresetForm";
             this.Text = "importPresetForm";
-            this.Load += new System.EventHandler(this.importPresetForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

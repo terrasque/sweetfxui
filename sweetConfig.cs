@@ -349,6 +349,37 @@ namespace WindowsFormsApplication1
             return bla.ToArray();
         }
 
+        public String[] saveConfig(String[] datas)
+        {
+            List<String> gawk = new List<string>();
+            foreach (String l in datas)
+            {
+                Match m = settingMatcher.Match(l);
+                if (m.Success)
+                {
+                    gawk.Add(byName[m.Groups[1].Value].formatLine());
+                }
+                else
+                {
+                    gawk.Add(l);
+                }
+            }
+            return gawk.ToArray();
+        }
+
+        public void writeToFile(String file)
+        {
+            string[] lines = System.IO.File.ReadAllLines(filePath);
+            String[] newlines = saveConfig(lines);
+            using (System.IO.StreamWriter filer = new System.IO.StreamWriter(filePath + ".temp"))
+            {
+                filer.Write(String.Join(@"\r\n", newlines));
+            }
+            File.Copy(filePath, filePath + ".orig", true);
+            File.Copy(filePath + ".temp", filePath, true);
+            File.Delete(filePath + ".temp");
+        }
+
         public void writeConfig()
         {
             if (isClone)
@@ -358,20 +389,10 @@ namespace WindowsFormsApplication1
             }
 
             string[] lines = System.IO.File.ReadAllLines(filePath);
+            String[] newlines = saveConfig(lines);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + ".temp"))
             {
-                foreach (String l in lines)
-                {
-                    Match m = settingMatcher.Match(l);
-                    if (m.Success)
-                    {
-                        file.WriteLine(byName[m.Groups[1].Value].formatLine());
-                    }
-                    else
-                    {
-                        file.WriteLine(l);
-                    }
-                }
+                file.Write(String.Join("\r\n", newlines));
             }
             File.Copy(filePath, filePath + ".orig", true);
             File.Copy(filePath + ".temp", filePath, true);
@@ -385,10 +406,8 @@ namespace WindowsFormsApplication1
             return clone;
         }
 
-        private void parseConfig()
+        public void parseConfig(String[] lines)
         {
-            logger.info("Processing config file " + filePath);
-            string[] lines = System.IO.File.ReadAllLines(filePath);
             FXSetting parent = null;
             foreach (string l in lines)
             {
@@ -424,6 +443,14 @@ namespace WindowsFormsApplication1
             {
                 configVersion = configVersions.v13;
             }
+        }
+
+        private void parseConfig()
+        {
+            logger.info("Processing config file " + filePath);
+            string[] lines = System.IO.File.ReadAllLines(filePath);
+            parseConfig(lines);
+
         }
 
         internal void settingsChanged()
