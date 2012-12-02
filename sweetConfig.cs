@@ -371,13 +371,13 @@ namespace WindowsFormsApplication1
         {
             string[] lines = System.IO.File.ReadAllLines(filePath);
             String[] newlines = saveConfig(lines);
-            using (System.IO.StreamWriter filer = new System.IO.StreamWriter(filePath + ".temp"))
+            using (System.IO.StreamWriter filer = new System.IO.StreamWriter(file + ".temp"))
             {
-                filer.Write(String.Join(@"\r\n", newlines));
+                filer.Write(String.Join("\r\n", newlines));
             }
-            File.Copy(filePath, filePath + ".orig", true);
-            File.Copy(filePath + ".temp", filePath, true);
-            File.Delete(filePath + ".temp");
+            //File.Copy(filePath, filePath + ".orig", true);
+            File.Copy(file + ".temp", file, true);
+            File.Delete(file + ".temp");
         }
 
         public void writeConfig()

@@ -271,5 +271,10 @@ namespace WindowsFormsApplication1
         {
             if (activeGame != null) new gameData(activeGame, this).Show();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

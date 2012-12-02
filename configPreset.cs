@@ -12,6 +12,8 @@ namespace WindowsFormsApplication1
         String path;
 
         public static string presetFolder = "config_presets";
+        public static string fxpresetsFolder = "config_presets2";
+
 
         public String name;
         String description = "";
@@ -52,12 +54,20 @@ namespace WindowsFormsApplication1
             return this.name;
         }
 
+        public configPreset(String name, gameEntry game, sweetConfig config)
+        {
+            initConfigPreset(name, game, config);
+        }
+
         public configPreset(String name, gameEntry game)
+        {
+            initConfigPreset(name, game, game.Config);
+        }
+
+        public void initConfigPreset(String name, gameEntry game, sweetConfig config)
         {
             this.name = name;
             setupINI();
-            
-
 
             path = Path.Combine(game.folder, Form1.sweetfxFolderName);
             path = Path.Combine(path, presetFolder);
@@ -74,7 +84,7 @@ namespace WindowsFormsApplication1
             }
             path = filename;
 
-            updateFromConfig(game.Config);
+            updateFromConfig(config);
         }
 
         private void loadPreset()

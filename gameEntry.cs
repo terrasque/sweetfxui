@@ -31,6 +31,10 @@ namespace WindowsFormsApplication1
         public String runArgs = "";
 
         public List<configPreset> presets = new List<configPreset>();
+        public List<sweetConfig> fxpresets = new List<sweetConfig>();
+        public static String fxpresetsFolder = "Presets";
+
+        public static String presetSelector = "SweetFX_preset.txt";
 
         public gameEntry(String path, String shortName)
         {
@@ -39,6 +43,10 @@ namespace WindowsFormsApplication1
             init();
         }
 
+        public sweetConfig getActivePreset()
+        {
+            return Config;
+        }
 
         public bool hasWriteAccessToFolder()
         {
@@ -52,6 +60,19 @@ namespace WindowsFormsApplication1
             catch (UnauthorizedAccessException)
             {
                 return false;
+            }
+        }
+
+        public void loadFXpresets()
+        {
+            string presetFolder = Path.Combine(folder, Form1.sweetfxFolderName, configPreset.fxpresetsFolder);
+            if (Directory.Exists(presetFolder))
+            {
+                String[] files = Directory.GetFiles(presetFolder);
+                foreach (string file in files)
+                {
+                    fxpresets.Add(new sweetConfig(file));
+                }
             }
         }
 

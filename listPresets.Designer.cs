@@ -30,6 +30,8 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.exportButton = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -42,7 +44,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +62,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.exportButton);
             this.groupBox1.Controls.Add(this.button7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.button5);
@@ -73,6 +77,26 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Preset list";
+            // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(131, 360);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(106, 23);
+            this.exportButton.TabIndex = 8;
+            this.exportButton.Text = "Export preset";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(9, 360);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(104, 23);
+            this.button7.TabIndex = 7;
+            this.button7.Text = "Import preset";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // label2
             // 
@@ -102,12 +126,15 @@
             // 
             // presetList
             // 
+            this.presetList.AllowDrop = true;
             this.presetList.FormattingEnabled = true;
             this.presetList.Location = new System.Drawing.Point(7, 15);
             this.presetList.Name = "presetList";
             this.presetList.Size = new System.Drawing.Size(230, 277);
             this.presetList.TabIndex = 1;
             this.presetList.SelectedIndexChanged += new System.EventHandler(this.presetList_SelectedIndexChanged);
+            this.presetList.DragDrop += new System.Windows.Forms.DragEventHandler(this.presetList_DragDrop);
+            this.presetList.DragEnter += new System.Windows.Forms.DragEventHandler(this.presetList_DragEnter);
             this.presetList.DoubleClick += new System.EventHandler(this.presetList_DoubleClick);
             // 
             // button6
@@ -190,14 +217,13 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button7
+            // openFileDialog1
             // 
-            this.button7.Location = new System.Drawing.Point(9, 360);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(104, 23);
-            this.button7.TabIndex = 7;
-            this.button7.Text = "Import preset";
-            this.button7.UseVisualStyleBackColor = true;
+            this.openFileDialog1.Filter = "Text|*.txt";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "Text file|*.txt";
             // 
             // listPresets
             // 
@@ -234,5 +260,8 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button exportButton;
     }
 }

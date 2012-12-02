@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsApplication1
 {
@@ -113,6 +114,53 @@ namespace WindowsFormsApplication1
                 activePreset.savePreset();
             }
             refreshUI();
+        }
+
+        public void importPreset(String filename)
+        {
+            sweetConfig newp = new sweetConfig(filename);
+            String presetname = Path.GetFileNameWithoutExtension(filename);
+            configPreset npreset = new configPreset(presetname, game, newp);
+            npreset.savePreset();
+            game.presets.Add(npreset);
+            refreshUI();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                String file = openFileDialog1.FileName;
+                importPreset(file);
+            }
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.FileName = "SweetFX_Settings_" + game.shortName + "_" + activePreset.name;
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                sweetConfig clone = game.Config.clone();
+                clone.loadPreset(this.activePreset);
+                clone.writeToFile(saveFileDialog1.FileName);
+            }
+        }
+
+        private void presetList_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void presetList_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+            {
+                if (file.ToLower().EndsWith(".txt"))
+                {
+                    importPreset(file);
+                }
+            }
         }
     }
 }
