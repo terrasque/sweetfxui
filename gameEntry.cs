@@ -103,7 +103,7 @@ namespace WindowsFormsApplication1
             this.special_folder = this.folder;
             foreach (String s in Directory.GetDirectories(this.folder))
             {
-                if (s.ToLower() == "bin" || s.ToLower() == "bin32")
+                if (s.ToLower().EndsWith("bin") || s.ToLower().EndsWith("bin32"))
                 {
                     this.special_folder = Path.Combine(this.folder, s);
                 }

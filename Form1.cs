@@ -18,7 +18,7 @@ namespace WindowsFormsApplication1
         List<sweetConfig.FXSetting> options = new List<sweetConfig.FXSetting>();
         sweetConfig.FXSetting activeSetting = null;
 
-        public static string VERSION = "1.3.2";
+        public static string VERSION = "1.3.3";
 
         public static string sweetfxFolderName = "SweetFX";
 
