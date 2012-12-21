@@ -24,4 +24,11 @@ License
 	
 Author
 ======
-This software was written by, and is Copyright 2012 Mikael Turøy <terrasque@thelazy.net>
+SweetFX Configurator was written by, and is Copyright 2012 Mikael Turoy <terrasque@thelazy.net>
+
+
+SweetFX
+=======
+
+SweetFX is written by CeeJay.dk and is included (with permission) in the distribution for some features of the configurator, 
+but is not covered by the license of the configurator.
